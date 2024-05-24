@@ -16,6 +16,7 @@ export type TaskDetail = Task & {
 export type ApiGetTasks = {
     tasks: Task[];
 }
+
 export type ApiGetTask = {
     task: TaskDetail;
 }

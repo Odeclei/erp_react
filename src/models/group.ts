@@ -1,7 +1,7 @@
 import { Permission } from "./Permission";
 
 export type Group = {
-    id:number;
+    id: number;
     name: string;
 }
 

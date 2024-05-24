@@ -1,4 +1,4 @@
-import { Group } from "./group";
+import { Group } from "./Group";
 
 export type Employee = {
     id: number;

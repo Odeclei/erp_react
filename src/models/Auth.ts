@@ -8,7 +8,7 @@ export type User = {
 
 export type UserEnterpriseDetail = {
     is_owner: boolean;
-    permission: Permission[]
+    permissions: Permission[]
 }
 
 export type ApiGetUser = {

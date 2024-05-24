@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import { useAuth } from 'src/utils/auth';
-import { AuthMiddleware } from 'src/middlewares/authmiddleware';
+import { AuthMidleware } from 'src/middlewares/Authmidleware';
 
 interface SidebarLayoutProps {
   children?: ReactNode;
@@ -13,29 +13,28 @@ interface SidebarLayoutProps {
 
 const SidebarLayout: FC<SidebarLayoutProps> = () => {
   const theme = useTheme();
-  const {handleInitUser} = useAuth();
+
+  const { handleInitUser } = useAuth();
+
   const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
-    const authenticateUser = async() => {
+    const authenticateUser = async () => {
       await handleInitUser();
-      setAuthLoading(false);
+      setAuthLoading(false)
     }
 
     authenticateUser();
-  }, []);
+  }, [])
 
-  if (authLoading){
-    return(
-      <LinearProgress style={{height:3}}/>
+  if (authLoading) {
+    return (
+      <LinearProgress style={{ height: 3 }} />
     )
-  };
-
-
-
+  }
 
   return (
-    <AuthMiddleware>
+    <AuthMidleware>
       <Box
         sx={{
           flex: 1,
@@ -50,16 +49,16 @@ const SidebarLayout: FC<SidebarLayoutProps> = () => {
             boxShadow:
               theme.palette.mode === 'dark'
                 ? `0 1px 0 ${alpha(
-                    lighten(theme.colors.primary.main, 0.7),
-                    0.15
-                  )}, 0px 2px 4px -3px rgba(0, 0, 0, 0.2), 0px 5px 12px -4px rgba(0, 0, 0, .1)`
+                  lighten(theme.colors.primary.main, 0.7),
+                  0.15
+                )}, 0px 2px 4px -3px rgba(0, 0, 0, 0.2), 0px 5px 12px -4px rgba(0, 0, 0, .1)`
                 : `0px 2px 4px -3px ${alpha(
-                    theme.colors.alpha.black[100],
-                    0.1
-                  )}, 0px 5px 12px -4px ${alpha(
-                    theme.colors.alpha.black[100],
-                    0.05
-                  )}`
+                  theme.colors.alpha.black[100],
+                  0.1
+                )}, 0px 5px 12px -4px ${alpha(
+                  theme.colors.alpha.black[100],
+                  0.05
+                )}`
           }
         }}
       >
@@ -82,7 +81,7 @@ const SidebarLayout: FC<SidebarLayoutProps> = () => {
           </Box>
         </Box>
       </Box>
-    </AuthMiddleware>
+    </AuthMidleware>
   );
 };
 

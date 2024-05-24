@@ -17,7 +17,7 @@ export const useApi = async<TypeDataResponse>(
     const access_token = handleGetAccessToken();
     let headers = {};
     if (withAuth && access_token) {
-        headers['Autorization'] = `bearer ${access_token}`;
+        headers['Authorization'] = `Bearer ${access_token}`;
     }
 
 
@@ -26,12 +26,13 @@ export const useApi = async<TypeDataResponse>(
             method,
             data: method != 'GET' && data,
             params: method == 'GET' && data,
+            headers
         })
         return {
             data: request.data,
             detail: ''
         }
-    } catch(e){
+    } catch (e) {
         const error = e as AxiosError<ApiError>;
 
         return{

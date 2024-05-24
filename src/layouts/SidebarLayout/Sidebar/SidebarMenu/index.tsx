@@ -31,6 +31,7 @@ import ChromeReaderModeTwoToneIcon from '@mui/icons-material/ChromeReaderModeTwo
 import WorkspacePremiumTwoToneIcon from '@mui/icons-material/WorkspacePremiumTwoTone';
 import CameraFrontTwoToneIcon from '@mui/icons-material/CameraFrontTwoTone';
 import DisplaySettingsTwoToneIcon from '@mui/icons-material/DisplaySettingsTwoTone';
+import { Add, Tune } from '@mui/icons-material';
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -179,8 +180,15 @@ function SidebarMenu() {
 
   return (
     <>
-      <MenuWrapper>
-        <List component="div">
+      <MenuWrapper sx={{mt: 2}}>  
+        <List
+          component="div"
+          subheader={
+            <ListSubheader component="div" disableSticky>
+              Groups
+            </ListSubheader>
+          }
+        >
           <SubMenuWrapper>
             <List component="div">
               <ListItem component="div">
@@ -188,15 +196,31 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/overview"
-                  startIcon={<DesignServicesTwoToneIcon />}
+                  to="/groups"
+                  startIcon={<Tune />}
                 >
-                  Overview
+                  Gerenciar Groups
+                </Button>
+              </ListItem>
+
+              <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/groups-add"
+                  startIcon={<Add />}
+                >
+                  Adicionar Groups
                 </Button>
               </ListItem>
             </List>
           </SubMenuWrapper>
         </List>
+
+
+
+
         <List
           component="div"
           subheader={

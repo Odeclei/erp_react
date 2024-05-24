@@ -5,7 +5,7 @@ import { useAuth } from "src/utils/auth"
 type Props = {
     children: ReactNode
 }
-export const AuthMiddleware = ({children}:Props) =>{
+export const AuthMidleware = ({children}:Props) =>{
     const navigate = useNavigate()
     const{isLogged} = useAuth();
 
