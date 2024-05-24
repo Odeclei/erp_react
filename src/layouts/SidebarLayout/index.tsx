@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import { useAuth } from 'src/utils/auth';
-import { AuthMidleware } from 'src/middlewares/Authmidleware';
+import { AuthMiddleware } from 'src/middlewares/AuthMiddleware';
 
 interface SidebarLayoutProps {
   children?: ReactNode;
@@ -34,7 +34,8 @@ const SidebarLayout: FC<SidebarLayoutProps> = () => {
   }
 
   return (
-    <AuthMidleware>
+    <AuthMiddleware>
+
       <Box
         sx={{
           flex: 1,
@@ -81,7 +82,8 @@ const SidebarLayout: FC<SidebarLayoutProps> = () => {
           </Box>
         </Box>
       </Box>
-    </AuthMidleware>
+    </AuthMiddleware>
+
   );
 };
 

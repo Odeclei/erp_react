@@ -42,10 +42,10 @@ const Groups = () => {
 
             <Container
                 maxWidth="xl"
-                // sx={{
-                //     marginX: requestLoading ? '-10%' : 0,
-                //     transition: 'all .5s'
-                // }}
+                sx={{
+                    marginX: requestLoading ? '-10%' : 0,
+                    transition: 'all .5s'
+                }}
             >
                 <GroupsTable
                     refreshList={handleGetGroups}

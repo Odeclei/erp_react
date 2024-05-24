@@ -1,41 +1,89 @@
-import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
-import { ChangeEvent } from "react";
-import { PermissionDetail } from "src/models/Permission";
+// flake8: noqa
+import { FC, ReactNode, useEffect, useState } from 'react';
+import { Box, LinearProgress, alpha, lighten, useTheme } from '@mui/material';
+import { Outlet } from 'react-router-dom';
 
-type Props = {
-    permissionsData: PermissionDetail[];
-    selectedPermissions: number[];
-    setSelectedPermissions: (value: number[]) => void;
+import { useAuth } from 'src/utils/auth';
+import { AuthMiddleware } from 'src/middlewares/AuthMiddleware';
+import Header from 'src/layouts/SidebarLayout/Header';
+import Sidebar from 'src/layouts/SidebarLayout/Sidebar';
+
+interface SidebarLayoutProps {
+    children?: ReactNode;
 }
 
-const PermissionsList = ({ permissionsData, selectedPermissions, setSelectedPermissions }: Props) => {
+const SidebarLayout: FC<SidebarLayoutProps> = () => {
+    const theme = useTheme();
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>, permission_id: number) => {
-        const { checked } = event.target;
+    const { handleInitUser } = useAuth();
 
-        if (checked) {
-            setSelectedPermissions([...selectedPermissions, permission_id])
-        } else {
-            setSelectedPermissions(selectedPermissions.filter(fId => fId != permission_id))
-        }
+    const [authLoading, setAuthLoading] = useState(true);
+
+    useEffect(() => {
+        const authenticateUser = async () => {
+            await handleInitUser();
+            setAuthLoading(false)
+            }
+
+        authenticateUser();
+        }, [])
+
+    if (authLoading) {
+        return (
+            <LinearProgress style={{ height: 3 }} />
+        )
     }
 
     return (
-        <FormGroup>
-            {permissionsData.map((item) => (
-                <FormControlLabel
-                    key={item.id}
-                    control={
-                        <Checkbox
-                            checked={selectedPermissions.find((id) => id == item.id) != undefined}
-                            onChange={(e) => handleChange(e, item.id)}
-                        />
+        <AuthMiddleware>
+            <Box
+                sx={{
+                flex: 1,
+                height: '100%',
+
+                '.MuiPageTitle-wrapper': {
+                    background:
+                        theme.palette.mode === 'dark'
+                            ? theme.colors.alpha.trueWhite[5]
+                            : theme.colors.alpha.white[50],
+                    marginBottom: `${theme.spacing(4)}`,
+                    boxShadow:
+                        theme.palette.mode === 'dark'
+                            ? `0 1px 0 ${alpha(
+                                lighten(theme.colors.primary.main, 0.7),
+                                0.15
+                            )}, 0px 2px 4px -3px rgba(0, 0, 0, 0.2), 0px 5px 12px -4px rgba(0, 0, 0, .1)`
+                            : `0px 2px 4px -3px ${alpha(
+                                theme.colors.alpha.black[100],
+                                0.1
+                            )}, 0px 5px 12px -4px ${alpha(
+                                theme.colors.alpha.black[100],
+                                0.05
+                            )}`
+                }
+                }}
+            >
+                <Header />
+                <Sidebar />
+                <Box
+                    sx={{
+                    position: 'relative',
+                    zIndex: 5,
+                    display: 'block',
+                    flex: 1,
+                    pt: `${theme.header.height}`,
+                    [theme.breakpoints.up('lg')]: {
+                        ml: `${theme.sidebar.width}`
                     }
-                    label={item.name}
-                />
-            ))}
-        </FormGroup>
-    )
+                    }}
+                >
+                <Box display="block">
+                    <Outlet />
+                </Box>
+                </Box>
+            </Box>
+        </AuthMiddleware>
+    );
 };
 
-export default PermissionsList;
+export default SidebarLayout;
